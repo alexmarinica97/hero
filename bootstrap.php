@@ -6,23 +6,19 @@ require "vendor/autoload.php";
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-
-
 $capsule = new Capsule;
-
-
 
 $capsule->addConnection([
 
-    "driver" => env('DB_DRIVER'),
+    "driver" => getenv('DB_DRIVER'),
 
-    "host" => env('DB_HOST'),
+    "host" => getenv('DB_HOST'),
 
-    "database" => env('DB_DATABASE'),
+    "database" => getenv('DB_DATABASE'),
 
-    "username" => env('DB_USERNAME'),
+    "username" => getenv('DB_USERNAME'),
 
-    "password" => env('DB_PASSWORD')
+    "password" => getenv('DB_PASSWORD')
 
 ]);
 
@@ -31,4 +27,14 @@ $capsule->setAsGlobal();
 
 // Setup the Eloquent ORM.
 $capsule->bootEloquent();
-$capsule->bootEloquent();
+
+use Pecee\SimpleRouter\SimpleRouter;
+
+/* Load external routes file */
+require_once 'routes/web.php';
+
+
+SimpleRouter::setDefaultNamespace('App\controllers');
+
+// Start the routing
+SimpleRouter::start();
